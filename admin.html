@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <title>Animalec – Backoffice</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        /* Layout básico, só para o protótipo */
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+                                     Roboto, sans-serif;
+            background-color: #f3f4f6;
+            color: #111827;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 2rem;
+            background-color: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .brand-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 999px;
+            background-color: #10b981;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .brand-text-small {
+            font-size: 0.8rem;
+            color: #6b7280;
+        }
+
+        .brand-text-main {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .top-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .search-box {
+            background-color: #f9fafb;
+            border-radius: 999px;
+            padding: 0.4rem 0.9rem;
+            border: 1px solid #e5e7eb;
+            font-size: 0.9rem;
+            min-width: 220px;
+        }
+
+        main {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            min-height: calc(100vh - 60px);
+        }
+
+        nav {
+            background-color: #ffffff;
+            border-right: 1px solid #e5e7eb;
+            padding: 1.5rem 1rem;
+        }
+
+        nav h2 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #6b7280;
+        }
+
+        .nav-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .nav-list a {
+            display: block;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            color: #374151;
+            font-size: 0.95rem;
+        }
+
+        .nav-list a.active {
+            background-color: #d1fae5;
+            color: #047857;
+            font-weight: 600;
+        }
+
+        .nav-list a:hover {
+            background-color: #f3f4f6;
+        }
+
+        .content-area {
+            padding: 2rem 3rem;
+        }
+
+        .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .page-title-group h1 {
+            font-size: 1.6rem;
+            margin: 0;
+        }
+
+        .page-title-group p {
+            margin: 0.25rem 0 0;
+            color: #6b7280;
+        }
+
+        .primary-btn {
+            background-color: #059669;
+            color: #ffffff;
+            border: none;
+            border-radius: 0.5rem;
+            padding: 0.65rem 1.4rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .primary-btn:hover {
+            background-color: #047857;
+        }
+
+        .card-table {
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -10px rgba(15, 23, 42, 0.25);
+            padding: 0.5rem 0.5rem 1rem;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+
+        thead {
+            background-color: #f9fafb;
+        }
+
+        th, td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+            white-space: nowrap;
+        }
+
+        th {
+            font-weight: 600;
+            color: #4b5563;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .status-pill {
+            display: inline-block;
+            padding: 0.2rem 0.8rem;
+            border-radius: 999px;
+            background-color: #dcfce7;
+            color: #15803d;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .action-link {
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-decoration: none;
+            margin-right: 0.75rem;
+        }
+
+        .action-edit {
+            color: #059669;
+        }
+
+        .action-remove {
+            color: #dc2626;
+        }
+
+        /* ---- Responsivo simples para mobile ---- */
+        @media (max-width: 768px) {
+            main {
+                grid-template-columns: 1fr;
+            }
+
+            nav {
+                border-right: none;
+                border-bottom: 1px solid #e5e7eb;
+            }
+
+            .content-area {
+                padding: 1.5rem 1rem;
+            }
+
+            header {
+                flex-direction: column;
+                gap: 0.75rem;
+                align-items: flex-start;
+            }
+
+            .top-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="brand">
+            <div class="brand-avatar">A</div>
+            <div>
+                <div class="brand-text-main">Animalec</div>
+                <div class="brand-text-small">Backoffice</div>
+            </div>
+        </div>
+
+        <div class="top-actions">
+            <input class="search-box" type="search" placeholder="Pesquisar…">
+            <!-- Ícones de notificação/perfil podem ser só placeholders no protótipo -->
+            <span>🔔</span>
+            <span>👤</span>
+        </div>
+    </header>
+
+    <!-- LAYOUT PRINCIPAL -->
+    <main>
+        <!-- MENU LATERAL -->
+        <nav aria-label="Navegação principal">
+            <h2>Menu</h2>
+            <ul class="nav-list">
+                <li><a href="#dashboard">Dashboard</a></li>
+                <li><a href="#animals">Animais</a></li>
+                <li><a href="#users">Utilizadores</a></li>
+                <li><a href="#quizzes">Quizzes</a></li>
+                <li><a href="#questions">Questões</a></li>
+                <li><a href="#sponsors" class="active">Sponsors</a></li>
+                <li><a href="#experts">Experts</a></li>
+            </ul>
+        </nav>
+
+        <!-- ÁREA DE CONTEÚDO -->
+        <div class="content-area">
+
+            <!-- SECÇÃO SPONSORS -->
+            <section id="sponsors" aria-labelledby="sponsors-title">
+                <header class="page-header">
+                    <div class="page-title-group">
+                        <h1 id="sponsors-title">Sponsors</h1>
+                        <p>Gerir e acompanhar patrocinadores da plataforma</p>
+                    </div>
+                    <button class="primary-btn">Adicionar Sponsor</button>
+                </header>
+
+                <article class="card-table" aria-label="Tabela de sponsors">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Tipo</th>
+                                <th>Animal</th>
+                                <th>Email</th>
+                                <th>Website</th>
+                                <th>Estado</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>WWF Portugal</td>
+                                <td>ONG</td>
+                                <td>Lobo-ibérico</td>
+                                <td>portugal@wwf.panda.org</td>
+                                <td>wwf.pt</td>
+                                <td><span class="status-pill">Ativo</span></td>
+                                <td>
+                                    <a href="#" class="action-link action-edit">Editar</a>
+                                    <a href="#" class="action-link action-remove">Remover</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Oceanário de Lisboa</td>
+                                <td>Instituição</td>
+                                <td>Tubarão-martelo</td>
+                                <td>info@oceanario.pt</td>
+                                <td>oceanario.pt</td>
+                                <td><span class="status-pill">Ativo</span></td>
+                                <td>
+                                    <a href="#" class="action-link action-edit">Editar</a>
+                                    <a href="#" class="action-link action-remove">Remover</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </article>
+            </section>
+
+            <!-- SECÇÃO EXPERTS -->
+            <section id="experts" aria-labelledby="experts-title" style="margin-top: 3rem;">
+                <header class="page-header">
+                    <div class="page-title-group">
+                        <h1 id="experts-title">Experts</h1>
+                        <p>Gerir e acompanhar especialistas da plataforma</p>
+                    </div>
+                    <button class="primary-btn">Adicionar Expert</button>
+                </header>
+
+                <article class="card-table" aria-label="Tabela de experts">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Especialidade</th>
+                                <th>Instituição</th>
+                                <th>Email</th>
+                                <th>País</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Prof. João Carlos Silva</td>
+                                <td>Mamíferos</td>
+                                <td>Universidade de Lisboa</td>
+                                <td>jcsilva@fc.ul.pt</td>
+                                <td>Portugal</td>
+                                <td>
+                                    <a href="#" class="action-link action-edit">Editar</a>
+                                    <a href="#" class="action-link action-remove">Remover</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Dra. Ana Cristina Costa</td>
+                                <td>Aves migratórias</td>
+                                <td>Centro de Estudos Ornitológicos</td>
+                                <td>ana.costa@ceo.pt</td>
+                                <td>Portugal</td>
+                                <td>
+                                    <a href="#" class="action-link action-edit">Editar</a>
+                                    <a href="#" class="action-link action-remove">Remover</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </article>
+            </section>
+
+        </div>
+    </main>
+
+</body>
+</html>
